@@ -55,6 +55,7 @@ public class ThemLuatActivity extends AppCompatActivity {
 
         anhXa();
         initControll();
+
     }
 
     private void initControll() {

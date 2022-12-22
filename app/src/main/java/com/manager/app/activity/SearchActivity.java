@@ -32,7 +32,6 @@ public class SearchActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     EditText editSreach;
     DanhSachDieu16Adapter danhSachLuatAdapter;
-    List<DanhSachLuat> listDieu;
     ApiBanHang apiSearch;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -57,15 +56,17 @@ public class SearchActivity extends AppCompatActivity {
 
 
     private void anhXa() {
-        listDieu = new ArrayList<>();
         apiSearch = RetrofitClient.getInstance(Utils.BASE_URL).create(ApiBanHang.class);
-
         editSreach = findViewById(R.id.editsearch);
         toolbar = findViewById(R.id.toolbartimkiem);
         recyclerView = findViewById(R.id.recyclerview_search);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        danhSachLuatAdapter = new DanhSachDieu16Adapter(getApplicationContext());
+        recyclerView.setAdapter(danhSachLuatAdapter);
+
         editSreach.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -74,14 +75,10 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() == 0){
-                    listDieu.clear();
-                    danhSachLuatAdapter = new DanhSachDieu16Adapter(getApplicationContext(), listDieu);
-                    recyclerView.setAdapter(danhSachLuatAdapter);
-                }else {
+                danhSachLuatAdapter.reset(new ArrayList<>());
+                if (charSequence.length() > 0){
                     getDataSearch(charSequence.toString().trim());
                 }
-
             }
 
             @Override
@@ -92,16 +89,13 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void getDataSearch(String textSearch) {
-        listDieu.clear();
         compositeDisposable.add(apiSearch.search(textSearch)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         danhSachLuatModel -> {
                             if (danhSachLuatModel.isSuccess()){
-                                listDieu = danhSachLuatModel.getResult();
-                                danhSachLuatAdapter = new DanhSachDieu16Adapter(getApplicationContext(), listDieu);
-                                recyclerView.setAdapter(danhSachLuatAdapter);
+                                danhSachLuatAdapter.reset(danhSachLuatModel.getResult());
                             }
                         },
                         Throwable ->{

@@ -102,4 +102,18 @@ public class DanhSachLuat implements Serializable {
     public void setMucphattren(String mucphattren) {
         this.mucphattren = mucphattren;
     }
+
+    public Double getPricePhatDuoi() {
+        if (mucphatduoi == null || mucphatduoi.isEmpty()) {
+            return 0.0;
+        }
+        return Double.parseDouble(mucphatduoi);
+    }
+
+    public Double getPricePhatTren() {
+        if (mucphattren == null || mucphattren.isEmpty()) {
+            return 0.0;
+        }
+        return Double.parseDouble(mucphattren);
+    }
 }

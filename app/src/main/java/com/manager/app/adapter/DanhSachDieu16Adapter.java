@@ -17,6 +17,7 @@ import com.manager.app.activity.ChiTietActivity;
 import com.manager.app.model.DanhSachLuat;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DanhSachDieu16Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -28,6 +29,11 @@ public class DanhSachDieu16Adapter extends RecyclerView.Adapter<RecyclerView.Vie
     public DanhSachDieu16Adapter(Context context, List<DanhSachLuat> array) {
         this.context = context;
         this.array = array;
+    }
+
+    public DanhSachDieu16Adapter(Context context) {
+        this.context = context;
+        this.array = new ArrayList<>();
     }
 
     @NonNull
@@ -49,8 +55,8 @@ public class DanhSachDieu16Adapter extends RecyclerView.Adapter<RecyclerView.Vie
             DanhSachLuat danhSachLuat = array.get(position);
             myViewHolderDanhSachDieu16Adapter.khoan.setText(String.valueOf(danhSachLuat.getKhoan()));
             DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
-            myViewHolderDanhSachDieu16Adapter.mucphatduoi.setText("" + decimalFormat.format(Double.parseDouble(danhSachLuat.getMucphatduoi())) + "Đ");
-            myViewHolderDanhSachDieu16Adapter.mucphattren.setText("" + decimalFormat.format(Double.parseDouble(danhSachLuat.getMucphattren())) + "Đ");
+            myViewHolderDanhSachDieu16Adapter.mucphatduoi.setText("" + decimalFormat.format(danhSachLuat.getPricePhatDuoi()) + "Đ");
+            myViewHolderDanhSachDieu16Adapter.mucphattren.setText("" + decimalFormat.format(danhSachLuat.getPricePhatTren()) + "Đ");
 
             myViewHolderDanhSachDieu16Adapter.setItemClickListener(new ItemClickListener() {
                 @Override
@@ -109,5 +115,10 @@ public class DanhSachDieu16Adapter extends RecyclerView.Adapter<RecyclerView.Vie
         public void onClick(View view) {
             itemClickListener.onClick(view, getAdapterPosition(), false);
         }
+    }
+
+    public void reset(List<DanhSachLuat> array) {
+        this.array = array;
+        this.notifyDataSetChanged();
     }
 }
