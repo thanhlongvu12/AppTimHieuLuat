@@ -99,6 +99,10 @@ public class MainActivity extends AppCompatActivity {
                         Intent quanly = new Intent(getApplicationContext(), QuanLyActivity.class);
                         startActivity(quanly);
                         break;
+                    case 4:
+                        Intent imformation = new Intent(getApplicationContext(), ImformationActivity.class);
+                        startActivity(imformation);
+                        break;
                 }
             }
         });
