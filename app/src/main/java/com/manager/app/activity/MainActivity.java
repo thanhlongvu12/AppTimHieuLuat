@@ -182,9 +182,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.navigationview);
         listViewManHinhChinh = findViewById(R.id.listviewmanhinhchinh);
         drawerLayout = findViewById(R.id.drawerlayout);
-        //Khoi tao list
         mangLoaiSP = new ArrayList<>();
-        //mangSPMoi = new ArrayList<>();
 
         listDanhSachLuat = new ArrayList<>();
 
